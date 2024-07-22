@@ -13,7 +13,7 @@ Artik is a town in the Artik Municipality of the Shirak Province of Armenia.
 
 Now we will explore the fire causes probability in Artik, going through data provided by Tumo. 
 The graph below represents the temperature and humidity flow during May-July 2024. As you can see, there is no information in the start of June, because the device was broken.
-The danger humidity level was registered in from the middle of June to the start of July
+The danger humidity level was registered from the middle of June to the start of July.
 
 ```{r message=FALSE}
 library(ggplot2)
