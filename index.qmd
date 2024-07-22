@@ -6,5 +6,6 @@ This is a Quarto website.
 
 ```{r}
 library(tidyverse)
+data <- read_csv("vazgen.csv")
 ```
 
