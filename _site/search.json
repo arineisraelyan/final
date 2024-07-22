@@ -18,6 +18,6 @@
     "href": "artik.html",
     "title": "Artik",
     "section": "",
-    "text": "Temperature and Humidity in Artik"
+    "text": "library(tidyverse)\nartik &lt;- read_csv(\"artik.csv\")\n\nTemperature and Humidity in Artik\n\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(patchwork)\np1 &lt;- artik |&gt; drop_na() |&gt; ggplot(aes(x=time, y=temperature)) + geom_line(color=\"darkblue\") + geom_smooth(color=\"white\") + theme_minimal() + labs(x=NULL, y=\"Temperatue\")\n\np2 &lt;- artik |&gt; drop_na() |&gt; ggplot(aes(x=time, y=humidity)) + geom_line(aes(color=if_else(humidity&lt;30,\"too_low\", \"normal\")))+ scale_color_manual(values = c(\"too_low\"=\"red\", normal=\"orange\"), guide=\"none\") + theme_minimal() + labs(x=\"Time\", y=\"Humidity\")\n\ncombined_plot &lt;- p1/p2\n\nprint(combined_plot)\n\n\n\n\n\n\n\nartik |&gt; drop_na() |&gt; mutate(humidity_level=humidity&gt;30, .before=1) |&gt; select(humidity_level, time, temperature, humidity) |&gt; filter(temperature&gt;25) |&gt; ggplot(aes(x=time, y=temperature)) + geom_point(aes(color=humidity_level)) + labs(color=\"Is humidity level safe or not\")"
   }
 ]
