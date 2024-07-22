@@ -1,0 +1,32 @@
+---
+title: "Artik"
+editor: visual
+execute:
+  echo: false
+---
+
+```{r message=FALSE}
+library(tidyverse)
+artik <- read_csv("artik.csv")
+```
+
+Temperature and Humidity in Artik
+
+```{r message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+p1 <- artik |> drop_na() |> ggplot(aes(x=time, y=temperature)) + geom_line(color="darkblue") + geom_smooth(color="white") + theme_minimal() + labs(x=NULL, y="Temperatue")
+
+p2 <- artik |> drop_na() |> ggplot(aes(x=time, y=humidity)) + geom_line(aes(color=if_else(humidity<30,"too_low", "normal")))+ scale_color_manual(values = c("too_low"="red", normal="orange"), guide="none") + theme_minimal() + labs(x="Time", y="Humidity")
+
+combined_plot <- p1/p2
+
+print(combined_plot)
+
+artik |> drop_na() |> mutate(humidity_level=humidity>30, .before=1) |> select(humidity_level, time, temperature, humidity) |> filter(temperature>25) |> ggplot(aes(x=time, y=temperature)) + geom_point(aes(color=humidity_level)) + labs(color="Is humidity level safe or not", x="Time", y="Temperature") + theme_minimal() 
+
+artik |> drop_na() |> ggplot(aes(x=time, y=speed)) + geom_jitter(aes(color=if_else(speed<15,"normal", "too_high"), alpha=0.5))+ scale_color_manual(values = c("normal"="black", too_high="darkred"), labels=c("normal"="Normal Speed", "too_high"="High Speed")) + scale_alpha_continuous(guide = "none") + geom_smooth(color="white") + theme_minimal() + labs(title="Wind speed in Artik", x ="Time", y="Speed", color="Wind speed danger level")
+  
+artik |> drop_na() |> ggplot(aes(x=direction)) + geom_bar() + theme_minimal() + labs(x="Direction", y="Count")
+```

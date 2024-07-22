@@ -1,5 +1,4 @@
 ---
 title: "Data Analysis"
-author: "Arine"
 editor: visual
 ---
